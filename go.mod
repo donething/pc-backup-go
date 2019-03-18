@@ -1,4 +1,4 @@
-module donething/pc-backup-go
+module pc-backup-go
 
 go 1.12
 
