@@ -1,6 +1,10 @@
 package work
 
-import "runtime"
+import (
+	"os"
+	"path/filepath"
+	"runtime"
+)
 
 const (
 	OS_WIN   = "windows"
@@ -30,6 +34,6 @@ func init() {
 	BashUIPath[OS_LINUX] = ""
 
 	// potplayer 配置
-	PotEtcPath[OS_WIN] = "C:/Users/Doneth/AppData/Roaming/PotPlayerMini64/PotPlayerMini64.ini"
+	PotEtcPath[OS_WIN] = filepath.Join(os.Getenv("APPDATA"), "PotPlayerMini64/PotPlayerMini64.ini")
 	PotEtcPath[OS_LINUX] = ""
 }
