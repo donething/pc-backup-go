@@ -4,11 +4,21 @@ package main
 
 import (
 	"github.com/donething/utils-go/dofile"
+	"github.com/donething/utils-go/dolog"
 	"log"
 	"os"
+	"pc-backup-go/work"
 )
 
 const prompt = `1：备份；2：还原`
+
+func init() {
+	// 保存日志到文件
+	err := dolog.Log2File(dolog.LOG_NAME, dofile.WRITE_TRUNC, dolog.LOG_FORMAT)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	if len(os.Args) < 2 {
@@ -16,51 +26,35 @@ func main() {
 	}
 	switch os.Args[1] {
 	case "1":
-		backup()
+		bk()
 	case "2":
-		restore()
+		rt()
 	default:
 		log.Printf("参数错误。%s\n", prompt)
 	}
 }
 
 // 备份
-func backup() {
+func bk() {
+	// 创建保存备份文件的目录
+	err := os.MkdirAll(work.Dir[work.OS], 0755)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// 备份bash配置
-	err := BackupBashEtc()
-	if err != nil {
-		log.Printf("备份bash配置文件出错：%s\n", err)
-	} else {
-		log.Printf("备份bash配置文件完成")
-	}
-
+	work.BackupBashEtc()
 	// 备份bash界面配置
-	err = BackupBashUI()
-	if err != nil {
-		log.Printf("备份bash界面配置文件出错：%s\n", err)
-	} else {
-		log.Printf("备份bash界面配置文件完成")
-	}
+	work.BackupBashUI()
 
-	err = dofile.OpenAs(backupDir)
+	err = dofile.OpenAs(work.Dir[work.OS])
 	if err != nil {
 		log.Printf("在资源管理器中显示备份目录时出错：%s\n", err)
 	}
 }
 
 // 恢复
-func restore() {
-	err := RestoreBashEtc()
-	if err != nil {
-		log.Printf("恢复bash配置文件出错：%s\n", err)
-	} else {
-		log.Printf("恢复bash配置文件完成")
-	}
-
-	err = RestoreBashUI()
-	if err != nil {
-		log.Printf("恢复bash界面配置出错：%s\n", err)
-	} else {
-		log.Printf("恢复bash界面配置完成")
-	}
+func rt() {
+	work.RestoreBashEtc()
+	work.RestoreBashUI()
 }
