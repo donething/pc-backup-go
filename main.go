@@ -46,6 +46,8 @@ func bk() {
 	work.BackupBashEtc()
 	// 备份bash界面配置
 	work.BackupBashUI()
+	// 备份Potplayer配置
+	work.BackupPotEtc()
 
 	err = dofile.OpenAs(work.Dir[work.OS])
 	if err != nil {
@@ -57,4 +59,5 @@ func bk() {
 func rt() {
 	work.RestoreBashEtc()
 	work.RestoreBashUI()
+	work.RestorePotEtc()
 }

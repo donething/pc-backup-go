@@ -12,6 +12,7 @@ var (
 	Dir         = make(map[string]string) // 备份目录
 	BashEtcPath = make(map[string]string) // bash etc配置
 	BashUIPath  = make(map[string]string) // bash UI配置
+	PotEtcPath  = make(map[string]string) // potplayer 配置
 )
 
 // 初始化配置
@@ -27,4 +28,8 @@ func init() {
 	// bash UI配置
 	BashUIPath[OS_WIN] = "C:/Users/Doneth/.minttyrc"
 	BashUIPath[OS_LINUX] = ""
+
+	// potplayer 配置
+	PotEtcPath[OS_WIN] = "C:/Users/Doneth/AppData/Roaming/PotPlayerMini64/PotPlayerMini64.ini"
+	PotEtcPath[OS_LINUX] = ""
 }
