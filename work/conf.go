@@ -27,5 +27,4 @@ func init() {
 	// bash UI配置
 	BashUIPath[OS_WIN] = "C:/Users/Doneth/.minttyrc"
 	BashUIPath[OS_LINUX] = ""
-
 }
