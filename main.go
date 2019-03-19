@@ -35,10 +35,6 @@ func main() {
 
 		// 备份
 		backup()
-		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
-		if err != nil {
-			log.Printf("复制日志出错：%s\n", err)
-		}
 
 		err = dofile.OpenAs(Dir[OS])
 		if err != nil {
@@ -51,5 +47,10 @@ func main() {
 		log.Println("恢复操作完成")
 	default:
 		log.Printf("参数错误。%s\n", prompt)
+	}
+
+	_, err := dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
+	if err != nil {
+		log.Printf("复制日志出错：%s\n", err)
 	}
 }
