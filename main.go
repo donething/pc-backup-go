@@ -7,7 +7,7 @@ import (
 	"github.com/donething/utils-go/dolog"
 	"log"
 	"os"
-	"pc-backup-go/work"
+	"path/filepath"
 )
 
 const prompt = `1：备份；2：还原`
@@ -26,38 +26,26 @@ func main() {
 	}
 	switch os.Args[1] {
 	case "1":
-		bk()
+		// 创建保存备份文件的目录
+		err := os.MkdirAll(Dir[OS], 0755)
+		if err != nil {
+			log.Fatalf("创建备份目录出错：%s\n", err)
+		}
+
+		// 备份
+		backup()
+		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
+		if err != nil {
+			log.Printf("复制日志出错：%s\n", err)
+		}
+
+		err = dofile.OpenAs(Dir[OS])
+		if err != nil {
+			log.Fatalf("在资源管理器中显示备份目录时出错：%s\n", err)
+		}
 	case "2":
-		rt()
+		restore()
 	default:
 		log.Printf("参数错误。%s\n", prompt)
 	}
-}
-
-// 备份
-func bk() {
-	// 创建保存备份文件的目录
-	err := os.MkdirAll(work.Dir[work.OS], 0755)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// 备份bash配置
-	work.BackupBashEtc()
-	// 备份bash界面配置
-	work.BackupBashUI()
-	// 备份Potplayer配置
-	work.BackupPotEtc()
-
-	err = dofile.OpenAs(work.Dir[work.OS])
-	if err != nil {
-		log.Printf("在资源管理器中显示备份目录时出错：%s\n", err)
-	}
-}
-
-// 恢复
-func rt() {
-	work.RestoreBashEtc()
-	work.RestoreBashUI()
-	work.RestorePotEtc()
 }
