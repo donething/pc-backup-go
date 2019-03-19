@@ -41,16 +41,15 @@ func main() {
 			log.Fatalf("在资源管理器中显示备份目录时出错：%s\n", err)
 		}
 		log.Println("备份操作完成")
+		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
+		if err != nil {
+			log.Printf("复制日志出错：%s\n", err)
+		}
 	case "2":
 		log.Println("恢复操作开始：")
 		restore()
 		log.Println("恢复操作完成")
 	default:
 		log.Printf("参数错误。%s\n", prompt)
-	}
-
-	_, err := dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
-	if err != nil {
-		log.Printf("复制日志出错：%s\n", err)
 	}
 }
