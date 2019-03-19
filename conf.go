@@ -23,14 +23,14 @@ var (
 func init() {
 	// 备份目录
 	Dir[OS_WIN] = "D:/MyData/Setting/Windows/pc-backup-go"
-	Dir[OS_LINUX] = "/home/doneth/MyData/Setting/Windows/pc-backup-go"
+	Dir[OS_LINUX] = filepath.Join(os.Getenv("HOME"), "MyData/Setting/Windows/pc-backup-go")
 
 	// bash etc配置
-	BashEtcPath[OS_WIN] = "C:/Program Files/Git/etc/bash.bashrc"
-	BashEtcPath[OS_LINUX] = "/home/doneth/.bashrc"
+	BashEtcPath[OS_WIN] = filepath.Join(os.Getenv("USERPROFILE"), ".bashrc")
+	BashEtcPath[OS_LINUX] = filepath.Join(os.Getenv("HOME"), ".bashrc")
 
 	// bash UI配置
-	BashUIPath[OS_WIN] = "C:/Users/Doneth/.minttyrc"
+	BashUIPath[OS_WIN] = filepath.Join(os.Getenv("USERPROFILE"), ".minttyrc")
 	BashUIPath[OS_LINUX] = ""
 
 	// potplayer 配置
