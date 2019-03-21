@@ -8,13 +8,20 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 const prompt = `1：备份；2：还原`
 
+var (
+	// 日志文件
+	lf *os.File
+)
+
 func init() {
 	// 保存日志到文件
-	err := dolog.Log2File(dolog.LOG_NAME, dofile.WRITE_TRUNC, dolog.LOG_FORMAT)
+	var err error
+	lf, err = dolog.LogToFile(dolog.LOG_NAME, dofile.WRITE_TRUNC, dolog.LOG_FORMAT)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,6 +48,11 @@ func main() {
 			log.Fatalf("在资源管理器中显示备份目录时出错：%s\n", err)
 		}
 		log.Println("备份操作完成")
+		defer lf.Close()
+
+		// 如果立刻复制文件，可能导致上条log没有时间被写入文件，所以等待一会
+		time.Sleep(2 * time.Second)
+
 		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
 		if err != nil {
 			log.Printf("复制日志出错：%s\n", err)
