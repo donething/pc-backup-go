@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	OS_WIN   = "windows"
-	OS_LINUX = "linux"
+	OSWin   = "windows"
+	OSLinux = "linux"
 )
 
 var (
@@ -22,18 +22,18 @@ var (
 // 初始化配置
 func init() {
 	// 备份目录
-	Dir[OS_WIN] = "D:/MyData/Setting/Windows/pc-backup-go"
-	Dir[OS_LINUX] = filepath.Join(os.Getenv("HOME"), "MyData/Setting/Windows/pc-backup-go")
+	Dir[OSWin] = "D:/MyData/Setting/Windows/pc-backup-go"
+	Dir[OSLinux] = filepath.Join(os.Getenv("HOME"), "MyData/Setting/Windows/pc-backup-go")
 
 	// bash etc配置
-	BashEtcPath[OS_WIN] = filepath.Join(os.Getenv("USERPROFILE"), ".bashrc")
-	BashEtcPath[OS_LINUX] = filepath.Join(os.Getenv("HOME"), ".bashrc")
+	BashEtcPath[OSWin] = filepath.Join(os.Getenv("USERPROFILE"), ".bashrc")
+	BashEtcPath[OSLinux] = filepath.Join(os.Getenv("HOME"), ".bashrc")
 
 	// bash UI配置
-	BashUIPath[OS_WIN] = filepath.Join(os.Getenv("USERPROFILE"), ".minttyrc")
-	BashUIPath[OS_LINUX] = ""
+	BashUIPath[OSWin] = filepath.Join(os.Getenv("USERPROFILE"), ".minttyrc")
+	BashUIPath[OSLinux] = ""
 
 	// potplayer 配置
-	PotEtcPath[OS_WIN] = filepath.Join(os.Getenv("APPDATA"), "PotPlayerMini64/PotPlayerMini64.ini")
-	PotEtcPath[OS_LINUX] = ""
+	PotEtcPath[OSWin] = filepath.Join(os.Getenv("APPDATA"), "PotPlayerMini64/PotPlayerMini64.ini")
+	PotEtcPath[OSLinux] = ""
 }
