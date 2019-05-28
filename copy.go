@@ -14,8 +14,8 @@ func copyFile(src string, dst string, tag string) {
 
 	_, err := dofile.CopyFile(src, dst, true)
 	if err != nil {
-		log.Printf("备份%s出错：%s\n", tag, err)
+		log.Printf("复制%s出错：%s\n", tag, err)
 		return
 	}
-	log.Printf("备份%s成功：[%s] ==> [%s]\n", tag, src, dst)
+	log.Printf("复制%s成功：[%s] ==> [%s]\n", tag, src, dst)
 }
