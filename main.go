@@ -7,11 +7,14 @@ import (
 	"github.com/donething/utils-go/dolog"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
+	"pc-backup-go/config"
+	"strings"
 	"time"
 )
 
-const prompt = `1：备份；2：还原`
+const prompt = "\n请输出正确参数：./pc-backup-go.exe config_path.json choice\n1. config_path.json表示配置文件路径，可以填\"\"（空字符串，而不是省略）\n2. choice表示要进行的操作 1：备份；2：还原"
 
 var (
 	// 日志文件
@@ -28,14 +31,21 @@ func init() {
 }
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		log.Fatalf("参数错误。%s\n", prompt)
 	}
-	switch os.Args[1] {
+	// 初始化配置
+	confPath := os.Args[1]
+	if strings.TrimSpace(confPath) == "" {
+		confPath = path.Join(".", config.DefaultName)
+	}
+	config.Init(confPath)
+
+	switch os.Args[2] {
 	case "1":
 		log.Println("备份操作开始：")
 		// 创建保存备份文件的目录
-		err := os.MkdirAll(Dir[OS], 0755)
+		err := os.MkdirAll(config.Dir, 0755)
 		if err != nil {
 			log.Fatalf("创建备份目录出错：%s\n", err)
 		}
@@ -43,7 +53,7 @@ func main() {
 		// 备份
 		backup()
 
-		err = dofile.OpenAs(Dir[OS])
+		err = dofile.OpenAs(config.Dir)
 		if err != nil {
 			log.Fatalf("在资源管理器中显示备份目录时出错：%s\n", err)
 		}
@@ -53,7 +63,7 @@ func main() {
 		// 如果立刻复制文件，可能导致上条log没有时间被写入文件，所以等待一会
 		time.Sleep(2 * time.Second)
 
-		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(Dir[OS], dolog.LOG_NAME), true)
+		_, err = dofile.CopyFile(dolog.LOG_NAME, filepath.Join(config.Dir, dolog.LOG_NAME), true)
 		if err != nil {
 			log.Printf("复制日志出错：%s\n", err)
 		}

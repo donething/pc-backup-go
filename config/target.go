@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"os"
@@ -13,17 +13,17 @@ const (
 
 var (
 	OS          = runtime.GOOS            // 当前操作系统
-	Dir         = make(map[string]string) // 备份目录
+	Dir         = ""                      // 备份目录
 	BashEtcPath = make(map[string]string) // bash etc配置
 	BashUIPath  = make(map[string]string) // bash UI配置
 	PotEtcPath  = make(map[string]string) // potplayer 配置
 )
 
 // 初始化配置
-func init() {
+func Init(confPath string) {
+	initConf(confPath)
 	// 备份目录
-	Dir[OSWin] = "D:/MyData/Setting/Windows/pc-backup-go"
-	Dir[OSLinux] = filepath.Join(os.Getenv("HOME"), "MyData/Setting/Windows/pc-backup-go")
+	Dir = Conf.Dir
 
 	// bash etc配置
 	BashEtcPath[OSWin] = filepath.Join(os.Getenv("USERPROFILE"), ".bashrc")
