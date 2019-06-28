@@ -31,9 +31,7 @@ func Init(confPath string) {
 
 	// bash UI配置
 	BashUIPath[OSWin] = filepath.Join(os.Getenv("USERPROFILE"), ".minttyrc")
-	BashUIPath[OSLinux] = ""
 
 	// potplayer 配置
 	PotEtcPath[OSWin] = filepath.Join(os.Getenv("APPDATA"), "PotPlayerMini64/PotPlayerMini64.ini")
-	PotEtcPath[OSLinux] = ""
 }
